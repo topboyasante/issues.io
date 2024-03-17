@@ -6,6 +6,7 @@ import BackButton from "@/components/ui/back-button";
 import { Separator } from "@/components/ui/separator";
 import { getListsById } from "@/services/lists";
 import { getProjectById } from "@/services/projects";
+import { notFound } from "next/navigation";
 
 async function Page({ params }: { params: { id: number } }) {
   const [project, lists] = await Promise.all([
@@ -13,6 +14,10 @@ async function Page({ params }: { params: { id: number } }) {
     getListsById(Number(params.id)),
   ]);
 
+  if (!project || !lists) {
+    notFound();
+  }
+  
   return (
     <div className="">
       <div className="flex justify-between items-center gap-5 h-[7vh] p-5">

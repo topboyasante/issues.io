@@ -7,7 +7,8 @@ export async function getAllLists() {
   try {
     const data = await prisma.list.findMany();
     return data;
-  } catch {
+  } catch (err) {
+    console.log(err);
     throw new Error("Failed to fetch project data.");
   }
 }
@@ -24,7 +25,8 @@ export async function getListsById(id: number) {
       },
     });
     return data;
-  } catch {
+  } catch (err) {
+    console.log(err);
     throw new Error("Failed to fetch lists.");
   }
 }
@@ -38,7 +40,8 @@ export async function getListById(id: number) {
       },
     });
     return data;
-  } catch {
+  } catch (err) {
+    console.log(err);
     throw new Error("Failed to fetch list data.");
   }
 }
@@ -58,7 +61,8 @@ export async function createList({
       },
     });
     revalidatePath(`/projects/${project_id}`);
-  } catch {
+  } catch (err) {
+    console.log(err);
     throw new Error("Failed to create list.");
   }
 }
@@ -78,6 +82,7 @@ export async function deleteList({
     });
     revalidatePath(`/projects/${project_id}`);
   } catch (err) {
+    console.log(err);
     throw new Error("Failed to delete list.");
   }
 }
