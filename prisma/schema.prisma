@@ -21,7 +21,7 @@ model List {
   title     String
   projectId Int
   issues    Issue[]
-  project   Project @relation(fields: [projectId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Issue {
@@ -29,5 +29,5 @@ model Issue {
   title       String
   description String
   listId      Int
-  list        List   @relation(fields: [listId], references: [id])
+  list        List   @relation(fields: [listId], references: [id], onDelete: Cascade)
 }
