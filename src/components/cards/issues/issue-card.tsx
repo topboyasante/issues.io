@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 
 type CardProps = {
-  issue_id: number;
-  project_id: number;
+  issue_id: string;
+  project_id: string;
   title: string;
   description: string;
 };

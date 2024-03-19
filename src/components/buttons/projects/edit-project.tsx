@@ -29,7 +29,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function EditProject({ id }: { id: number }) {
+export default function EditProject({ id }: { id: string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

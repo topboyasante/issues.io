@@ -1,14 +1,16 @@
 import ProjectCard from "@/components/cards/projects/project-card";
 import React from "react";
 import { getAllProjects } from "@/services/projects";
+import { getServerSession } from "next-auth";
 
 type SearchParams = {
   query?: string;
 };
 
 async function ProjectList({ ...props }: SearchParams) {
+  const session = await getServerSession();
   const query = props?.query || "";
-  const projects = await getAllProjects(query);
+  const projects = await getAllProjects(session?.user.email as string, query);
 
   return (
     <div>

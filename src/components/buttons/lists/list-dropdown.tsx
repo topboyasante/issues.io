@@ -13,8 +13,8 @@ export function ListDropdown({
   project_id,
   list_id,
 }: {
-  project_id: number;
-  list_id: number;
+  project_id: string;
+  list_id: string;
 }) {
   return (
     <DropdownMenu>

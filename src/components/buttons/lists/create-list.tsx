@@ -29,7 +29,7 @@ const formSchema = z.object({
   }),
 });
 
-export default function CreateList({ project_id }: { project_id: number }) {
+export default function CreateList({ project_id }: { project_id: string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

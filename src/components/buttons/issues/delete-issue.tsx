@@ -18,8 +18,8 @@ function DeleteIssue({
   issue_id,
   project_id,
 }: {
-  issue_id: number;
-  project_id: number;
+  issue_id: string;
+  project_id: string;
 }) {
   return (
     <AlertDialog>

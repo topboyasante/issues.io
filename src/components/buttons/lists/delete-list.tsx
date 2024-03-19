@@ -16,8 +16,8 @@ function DeleteList({
   list_id,
   project_id,
 }: {
-  list_id: number;
-  project_id: number;
+  list_id: string;
+  project_id: string;
 }) {
   return (
     <AlertDialog>

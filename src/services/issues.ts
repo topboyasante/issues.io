@@ -2,17 +2,27 @@
 import prisma from "@/lib/prisma";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
-export async function getAllIssues() {
+export async function getAllIssues(email:string) {
   noStore();
   try {
-    const data = await prisma.issue.findMany();
+    const data = await prisma.issue.findMany({
+      where:{
+        list:{
+          project:{
+            user: {
+              email,
+            },
+          }
+        }
+      }
+    });
     return data;
   } catch {
     throw new Error("Failed to fetch issue data.");
   }
 }
 
-export async function getIssueById(issue_id: number) {
+export async function getIssueById(issue_id: string) {
   noStore();
   try {
     const data = await prisma.issue.findFirst({
@@ -34,8 +44,8 @@ export async function createIssue({
 }: {
   title: string;
   description: string;
-  project_id: number;
-  list_id: number;
+  project_id: string;
+  list_id: string;
 }) {
   try {
     await prisma.issue.create({
@@ -55,8 +65,8 @@ export async function deleteIssue({
   issue_id,
   project_id,
 }: {
-  issue_id: number;
-  project_id: number;
+  issue_id: string;
+  project_id: string;
 }) {
   try {
     await prisma.issue.delete({
@@ -74,10 +84,12 @@ export async function editIssue({
   issue_id,
   project_id,
   title,
+  description
 }: {
-  issue_id: number;
-  project_id: number;
+  issue_id: string;
+  project_id: string;
   title: string;
+  description: string;
 }) {
   try {
     await prisma.issue.update({
@@ -86,6 +98,7 @@ export async function editIssue({
       },
       data: {
         title,
+        description
       },
     });
     revalidatePath(`/projects/${project_id}`);

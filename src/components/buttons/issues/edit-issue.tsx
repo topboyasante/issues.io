@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { editIssue, getIssueById } from "@/services/issues";
-import { editList, getListById } from "@/services/lists";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
@@ -28,20 +28,24 @@ const formSchema = z.object({
   title: z.string().min(1, {
     message: "Title should be more than 1 character",
   }),
+  description: z.string().min(1, {
+    message: "Description should be more than 1 character",
+  }),
 });
 
 export default function EditIssue({
   issue_id,
   project_id,
 }: {
-  issue_id: number;
-  project_id: number;
+  issue_id: string;
+  project_id: string;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      description:""
     },
   });
   useEffect(() => {
@@ -55,6 +59,7 @@ export default function EditIssue({
         if (response) {
           form.reset({
             title: response.title,
+            description:response.description
           });
         }
       })
@@ -97,6 +102,23 @@ export default function EditIssue({
                   <FormLabel>Title</FormLabel>
                   <FormControl>
                     <Input type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+                 <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Describe the task/issue"
+                      className="resize-none"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

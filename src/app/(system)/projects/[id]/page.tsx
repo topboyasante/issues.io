@@ -8,16 +8,16 @@ import { getListsById } from "@/services/lists";
 import { getProjectById } from "@/services/projects";
 import { notFound } from "next/navigation";
 
-async function Page({ params }: { params: { id: number } }) {
+async function Page({ params }: { params: { id: string } }) {
   const [project, lists] = await Promise.all([
-    getProjectById(Number(params.id)),
-    getListsById(Number(params.id)),
+    getProjectById(params.id),
+    getListsById(params.id),
   ]);
 
   if (!project || !lists) {
     notFound();
   }
-  
+
   return (
     <div className="">
       <div className="flex justify-between items-center gap-5 h-[7vh] p-5">
@@ -25,7 +25,7 @@ async function Page({ params }: { params: { id: number } }) {
           <BackButton />
           <h3>{project?.title}</h3>
         </div>
-        <CreateList project_id={Number(params.id)} />
+        <CreateList project_id={params.id} />
       </div>
       <Separator />
       <div>

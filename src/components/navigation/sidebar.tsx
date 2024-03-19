@@ -6,6 +6,7 @@ import { useIssuesStore } from "@/zustand/store";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UserProfileDropdown } from "../ui/user-dropdown";
 
 function Navbar() {
   const toggleSidebar = useIssuesStore((state) => state.toggleSidebar);
@@ -80,6 +81,9 @@ function Navbar() {
           {/* Bottom */}
           <div>
             <ModeToggle />
+            <div className="my-5">
+              <UserProfileDropdown />
+            </div>
           </div>
         </div>
       </nav>

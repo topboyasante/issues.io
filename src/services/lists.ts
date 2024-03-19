@@ -2,10 +2,18 @@
 import prisma from "@/lib/prisma";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
-export async function getAllLists() {
+export async function getAllLists(email: string) {
   noStore();
   try {
-    const data = await prisma.list.findMany();
+    const data = await prisma.list.findMany({
+      where: {
+        project: {
+          user: {
+            email,
+          },
+        },
+      },
+    });
     return data;
   } catch (err) {
     console.log(err);
@@ -13,7 +21,7 @@ export async function getAllLists() {
   }
 }
 
-export async function getListsById(id: number) {
+export async function getListsById(id: string) {
   noStore();
   try {
     const data = await prisma.list.findMany({
@@ -31,7 +39,7 @@ export async function getListsById(id: number) {
   }
 }
 
-export async function getListById(id: number) {
+export async function getListById(id: string) {
   noStore();
   try {
     const data = await prisma.list.findFirst({
@@ -47,10 +55,10 @@ export async function getListById(id: number) {
 }
 
 export async function createList({
-  project_id,
   title,
+  project_id,
 }: {
-  project_id: number;
+  project_id: string;
   title: string;
 }) {
   try {
@@ -71,8 +79,8 @@ export async function deleteList({
   project_id,
   list_id,
 }: {
-  project_id: number;
-  list_id: number;
+  project_id: string;
+  list_id: string;
 }) {
   try {
     await prisma.list.delete({
@@ -92,8 +100,8 @@ export async function editList({
   list_id,
   title,
 }: {
-  project_id: number;
-  list_id: number;
+  project_id: string;
+  list_id: string;
   title: string;
 }) {
   try {

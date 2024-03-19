@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-function DeleteProject({ id }: { id: number }) {
+function DeleteProject({ id }: { id: string }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

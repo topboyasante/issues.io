@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import EditProject from "@/components/buttons/projects/edit-project";
 
 type CardProps = {
-  id: number;
+  id: string;
   title: string;
 };
 

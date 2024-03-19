@@ -38,8 +38,8 @@ export default function CreateIssue({
   project_id,
   list_id,
 }: {
-  project_id: number;
-  list_id: number;
+  project_id: string;
+  list_id: string;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({

@@ -3,13 +3,15 @@ import { Separator } from "@/components/ui/separator";
 import { getAllIssues } from "@/services/issues";
 import { getAllLists } from "@/services/lists";
 import { getAllProjects } from "@/services/projects";
+import { getServerSession } from "next-auth";
 import React from "react";
 
 async function page() {
+  const session = await getServerSession();
   const [projects, lists, issues] = await Promise.all([
-    getAllProjects(),
-    getAllLists(),
-    getAllIssues(),
+    getAllProjects(session?.user.email as string),
+    getAllLists(session?.user.email as string),
+    getAllIssues(session?.user.email as string),
   ]);
   return (
     <div className="p-5">

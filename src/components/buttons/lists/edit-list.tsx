@@ -32,8 +32,8 @@ export default function EditList({
   list_id,
   project_id,
 }: {
-  list_id: number;
-  project_id: number;
+  list_id: string;
+  project_id: string;
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({

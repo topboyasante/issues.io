@@ -16,8 +16,8 @@ function Home() {
           <div className="flex flex-col justify-center items-center">
             <h1>Dead-Simple Issues Tracking System</h1>
             <div className="my-8">
-              <Link href={`/dashboard`}>
-                <Button>View Projects</Button>
+              <Link href={`/sign-up`}>
+                <Button>Get Started</Button>
               </Link>
             </div>
             <Image src={`/issue_io.png`} alt="hero_img" width={2000} height={1000}/>

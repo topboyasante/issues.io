@@ -2,12 +2,15 @@
 import prisma from "@/lib/prisma";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
-export async function getAllProjects(query?: string) {
+export async function getAllProjects(email: string, query?: string) {
   noStore();
   try {
     const data = await prisma.project.findMany({
       where: {
         title: { contains: query },
+        user: {
+          email,
+        },
       },
     });
     return data;
@@ -16,7 +19,7 @@ export async function getAllProjects(query?: string) {
   }
 }
 
-export async function getProjectById(id: number) {
+export async function getProjectById(id: string) {
   noStore();
   try {
     const data = await prisma.project.findFirst({
@@ -30,11 +33,18 @@ export async function getProjectById(id: number) {
   }
 }
 
-export async function createProject({ title }: { title: string }) {
+export async function createProject({
+  title,
+  user_id,
+}: {
+  title: string;
+  user_id: string;
+}) {
   try {
     const new_project = await prisma.project.create({
       data: {
         title,
+        createdBy: user_id,
       },
     });
     await prisma.list.create({
@@ -57,12 +67,13 @@ export async function createProject({ title }: { title: string }) {
     });
 
     revalidatePath("/projects");
-  } catch {
+  } catch (error) {
+    console.log(error);
     throw new Error("Failed to create project.");
   }
 }
 
-export async function deleteProject(id: number) {
+export async function deleteProject(id: string) {
   try {
     await prisma.project.delete({
       where: {
@@ -79,7 +90,7 @@ export async function editProject({
   id,
   title,
 }: {
-  id: number;
+  id: string;
   title: string;
 }) {
   try {

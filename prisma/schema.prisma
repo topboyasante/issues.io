@@ -6,28 +6,38 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String    @id @default(cuid())
+  username String    @unique
+  email    String
+  password String
+  projects Project[]
+}
+
 model Project {
-  id    Int    @id @default(autoincrement())
-  title String
-  lists List[]
+  id         String @id @default(cuid())
+  title      String
+  lists      List[]
+  createdBy String
+  user       User   @relation(fields: [createdBy], references: [id], onDelete: Cascade)
 }
 
 model List {
-  id        Int     @id @default(autoincrement())
+  id        String  @id @default(cuid())
   title     String
-  projectId Int
+  projectId String
   issues    Issue[]
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Issue {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(cuid())
   title       String
   description String
-  listId      Int
+  listId      String
   list        List   @relation(fields: [listId], references: [id], onDelete: Cascade)
 }
